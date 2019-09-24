@@ -1,0 +1,8 @@
+/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM_TB.sv {1 {vlog -work work -vopt -sv -stats=none /ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM_TB.sv
+Model Technology ModelSim SE-64 vlog 10.7c Compiler 2018.08 Aug 17 2018
+-- Compiling module fsm_tb
+
+Top level modules:
+	fsm_tb
+
+} {} {}}
