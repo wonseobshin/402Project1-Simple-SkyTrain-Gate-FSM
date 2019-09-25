@@ -1,5 +1,5 @@
 module fsm(
-	input logic clk, nfc, card_active, fund_enough,
+	input logic clk, nfc, card_active, fund_enough, maintenance,
 	output logic open, reduce_bal,
 	output logic [1:0] disp
 );
@@ -18,7 +18,7 @@ localparam [3:0] // for 4 states : size_state = 1:0
 	SERV = 4'b1010;
     
 logic [3:0] state, next_state; 
-logic delayed, maintenance;
+logic delayed;
 
 always_ff @(posedge clk)
 begin
@@ -32,8 +32,8 @@ begin
 	case (state)
 		IDLE:
 		begin
-			disp = 2'b00;
-			if(nfc) begin
+			disp = 2'b00;		//this display shows that the gate is awaiting for an nfc card tap
+			if(nfc) begin		// if card is tapped transition a state
 				next_state = CHECK_VALID ;
 			end
 		end
@@ -58,7 +58,7 @@ begin
 		CHECK_BAL:
 		begin
 			if(fund_enough) begin
-				next_state = REDUCE_BAL;
+				next_state = REDUCE_BAL;		//reduce balance if there are enough funds the fund_enough signal comes from a higher level module
 			end
 			else begin
 				next_state = INSUF_BAL;
@@ -66,19 +66,20 @@ begin
 		end
 		REDUCE_BAL:
 		begin
-			reduce_bal = 1'b1;
+			reduce_bal = 1'b1;	// will send a blip of single bit signal to software to reduce card balance.
 			next_state = OPEN;
 		end
 		INSUF_BAL:
 		begin
-			disp = 2'b01;
+			disp = 2'b01;		// insufficient balance display
 			next_state = DELAY;
 		end
 		OPEN:
 		begin
 			open = 1'b1;
+			disp = 2'b11;		//this is the open display
 			reduce_bal = 1'b0;
-			next_state = DELAY;
+			next_state = DELAY;	// a delay state is needed to allow users to see the error message and to pass the gate while open
 		end
 		DELAY:
 		begin
@@ -99,7 +100,7 @@ begin
 		end
 		SERV:
 		begin
-			if(maintenance)
+			if(maintenance)			// a maintenance state that loops within itself while not in service. 
 				next_state = SERV;
 			else
 				next_state = IDLE;
@@ -110,8 +111,5 @@ begin
 		end
 	endcase
 end  
-    
-// optional D-FF to remove glitches
-always_ff @(posedge clk) begin 
-end 
+
 endmodule 
