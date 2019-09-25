@@ -7,61 +7,71 @@ z2
 !i10e 25
 !i10f 100
 cModel Technology
-d/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153
+Z0 d/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153
 T_opt
 !s110 1569132186
 VW05F55iUgZ<Maf_J6eRBT2
-04 6 4 work fsm_tb fast 0
+Z1 04 6 4 work fsm_tb fast 0
 =4-00505601078e-5d870e9a-48003-27d6
-o-quiet -auto_acc_if_foreign -work work +acc
-Z0 tCvgOpt 0
+Z2 o-quiet -auto_acc_if_foreign -work work +acc
+Z3 tCvgOpt 0
 n@_opt
-OL;O;10.7c;67
+Z4 OL;O;10.7c;67
+R0
+T_opt1
+!s110 1569381717
+V`D:<;h2S;LjbzG2Phm];[2
+R1
+=12-00505601078e-5d8add55-47ccc-d8bb
+R2
+R3
+n@_opt1
+R4
 vfsm
-Z1 DXx6 sv_std 3 std 0 22 d=_JfHTnXCN[H5FjiaJJc0
-Z2 !s110 1569132178
+Z5 DXx6 sv_std 3 std 0 22 d=_JfHTnXCN[H5FjiaJJc0
+Z6 !s110 1569381711
 !i10b 1
-!s100 `cD<CNz0eZfeFEWLok60T2
-I5@>[:_B4jN^EKEB]RIo8c1
-Z3 VDg1SIo80bB@j0V0VzS_@n1
+!s100 oM`elA;KX2cJ8zBekkidg1
+I>KjF8Tmb`[0`bRlPZazPK1
+Z7 VDg1SIo80bB@j0V0VzS_@n1
 !s105 FSM_sv_unit
 S1
-Z4 d/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1
-w1569132172
+Z8 d/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1
+w1569381707
 8/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM.sv
 F/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM.sv
 L0 1
-Z5 OL;L;10.7c;67
+Z9 OL;L;10.7c;67
 r1
 !s85 0
 31
-Z6 !s108 1569132178.000000
+Z10 !s108 1569381711.000000
 !s107 /ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM.sv|
 !i113 0
-Z7 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-R0
-vfsm_tb
-R1
-R2
-!i10b 1
-!s100 FelM4U^TKkQaaOCElOo1@2
-I[G1NoKC6kgP=HFMR4fNGD0
+Z11 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 R3
+vfsm_tb
+R5
+R6
+!i10b 1
+!s100 hihXhKI7_jZMVCAc:ZI320
+I:Ie=[1Q6QUl>dIGUh7fEH1
+R7
 !s105 FSM_TB_sv_unit
 S1
-R4
-w1569131702
+R8
+w1569381319
 8/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM_TB.sv
 F/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM_TB.sv
 L0 1
-R5
+R9
 r1
 !s85 0
 31
-R6
+R10
 !s107 /ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM_TB.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM_TB.sv|
 !i113 0
-R7
-R0
+R11
+R3

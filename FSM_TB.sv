@@ -22,40 +22,42 @@ begin
 	//happy case where user taps valid card and passes
 	//door should open and display the open display (2'b11)
 	nfc <= 1'b1;
-	#10
-	nfc <= 1'b0;
 	card_active <= 1'b1;
 	fund_enough <= 1'b1;
+	#10
+	nfc <= 1'b0;
 
-	#50
+	#60
 	//invalid card case
 	//door should not open and should display invalid card error
 	nfc <= 1'b1;
-	#10
-	nfc <= 1'b0;
 	card_active <= 1'b0;
 	fund_enough <= 1'b1;
+	#10
+	nfc <= 1'b0;
 
-	#50
+	#60
 	//insufficient fund case
 	//door should not open and display insufficient funds error
 	nfc <= 1'b1;
-	#10
-	nfc <= 1'b0;
 	card_active <= 1'b1;
 	fund_enough <= 1'b0;
+	#10
+	nfc <= 1'b0;
 
-	#50
+	#60
 	//maintenance case
 	//should not react to nfc card
 	maintenance <= 1'b1;
 	#10
 	nfc <= 1'b1;
-	#10
-	nfc <= 1'b0;
 	card_active <= 1'b0;
 	fund_enough <= 1'b0;
+	#10
+	nfc <= 1'b0;
 
+	#60
+	maintenance <= 1'b0;
 
 
 end
