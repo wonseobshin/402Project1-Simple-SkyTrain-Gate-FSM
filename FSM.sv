@@ -25,7 +25,7 @@ begin
 	state <= next_state;
 end
 
-
+assign delayed = 1'b1;	//for this exmple the delay is just one clk cycle for testing. longer delays can easily be added with a counter
 
 always_comb 
 begin 
@@ -33,6 +33,9 @@ begin
 		IDLE:
 		begin
 			disp = 2'b00;		//this display shows that the gate is awaiting for an nfc card tap
+			if(maintenance) begin	//go into service mode if maintenance flag s on
+				next_state = SERV;
+			end
 			if(nfc) begin		// if card is tapped transition a state
 				next_state = CHECK_VALID ;
 			end
@@ -83,7 +86,6 @@ begin
 		end
 		DELAY:
 		begin
-			delayed = 1'b1;	//for this exmple the delay is just one clk cycle for testing. longer delays can easily be added with a counter
 			if(delayed) begin
 				if(open)
 					next_state = CLOSE;
@@ -96,13 +98,12 @@ begin
 		CLOSE:
 		begin
 			open = 1'b0;
+			disp = 2'b00;
 			next_state = IDLE;
 		end
 		SERV:
 		begin
-			if(maintenance)			// a maintenance state that loops within itself while not in service. 
-				next_state = SERV;
-			else
+			if(maintenance == 1'b0)			// a maintenance state that loops within itself while not in service. 
 				next_state = IDLE;
 		end
 		default:
