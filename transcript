@@ -12,8 +12,57 @@
 # //  18 U.S.C. Section 1905.
 # //
 # Loading project Project1_FSM
+# Compile of FSM.sv failed with 1 errors.
+# Compile of FSM_TB.sv was successful.
+# Compile of FSM_map.sv was successful.
+# Compile of slow_vdd1v0_basicCells.v was successful.
+# 4 compiles, 1 failed with 1 error.
+# Compile of FSM.sv failed with 2 errors.
+# Compile of FSM_TB.sv was successful.
+# Compile of FSM_map.sv was successful.
+# Compile of slow_vdd1v0_basicCells.v was successful.
+# 4 compiles, 1 failed with 2 errors.
+# Compile of FSM.sv failed with 2 errors.
+# Compile of FSM_TB.sv was successful.
+# Compile of FSM_map.sv was successful.
+# Error opening /ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/(vlog-13069) /ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM.sv
+# Path name '/ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/(vlog-13069) /ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM.sv' doesn't exist.
+# Compile of slow_vdd1v0_basicCells.v was successful.
+# 4 compiles, 1 failed with 2 errors.
 # Compile of FSM.sv was successful.
 # Compile of FSM_TB.sv was successful.
 # Compile of FSM_map.sv was successful.
 # Compile of slow_vdd1v0_basicCells.v was successful.
 # 4 compiles, 0 failed with no errors.
+vsim -voptargs=+acc work.fsm_tb
+# vsim -voptargs="+acc" work.fsm_tb 
+# Start time: 23:17:39 on Oct 01,2019
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vopt-143) Recognized 1 FSM in module "fsm(fast)".
+# Loading sv_std.std
+# Loading work.fsm_tb(fast)
+# Loading work.fsm(fast)
+add wave -position insertpoint  \
+sim:/fsm_tb/clk \
+sim:/fsm_tb/nfc \
+sim:/fsm_tb/card_active \
+sim:/fsm_tb/fund_enough \
+sim:/fsm_tb/maintenance \
+sim:/fsm_tb/monthly \
+sim:/fsm_tb/open \
+sim:/fsm_tb/reduce_bal \
+sim:/fsm_tb/disp \
+sim:/fsm_tb/sound
+# ** Error: Unable to lock WLF file "vsim.wlf". Retrying 1 times, errno 11
+# ** Error: Unable to lock WLF file "vsim.wlf". Retrying 2 times, errno 11
+# ** Error: Unable to lock WLF file "vsim.wlf". Retrying 3 times, errno 11
+# ** Error: Cannot lock WLF file: "vsim.wlf"
+#           errno 11: Resource temporarily unavailable.
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: l6w0b  Hostname: ssh-soc  ProcessID: 10198
+#           Attempting to use alternate WLF file "./wlftUn1HKZ".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftUn1HKZ
+run -all
+# Break key hit
+# Break in Module fsm_tb at /ubc/ece/home/ugrads/l/l6w0b/Desktop/ModelSim_49820153/project1/FSM_TB.sv line 17

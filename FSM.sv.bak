@@ -22,7 +22,7 @@ localparam [10:0]
 	DELAY_E = 	11'b00_010_00_1000,
 	DELAY_IF = 	11'b00_001_00_1000,
 	CLOSE = 	11'b00_000_00_1001,
-	SERV = 		11'b00_111_00_1010,
+	SERV = 		11'b00_111_00_1010;
 	SERV_E = 	11'b01_111_00_1010;
     
 logic [10:0] state, next_state; 

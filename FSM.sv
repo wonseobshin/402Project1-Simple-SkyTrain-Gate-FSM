@@ -1,28 +1,31 @@
 module fsm(
 	input logic clk, nfc, card_active, fund_enough, maintenance, monthly,
 	output logic open, reduce_bal,
-	output logic [1:0] disp
+	output logic [2:0] disp,
+	output logic [1:0] sound
 );
 
-localparam [8:0] 
-//disp => 000:idle, 001:insufficient funds, 010:invalid pass, 011:open and show balance, 100:open and show monthly pass expiry date
-//(disp[2:0])(open)(reduce_bal)(state[3:0)]
-	IDLE = 		9'b00000_0000,
+localparam [10:0] 
+//disp => 000:idle, 001:insufficient funds, 010:invalid pass, 100:open and show balance, 101:open and show monthly pass expiry date, 111: Unavailable due to maintenance
+//sound => 00:no sound, 01:error beeps(beep beep beep), 10:pass beep (beeeep), 
+//(sound[1:0])_(disp[2:0])_(open)(reduce_bal)(state[3:0)]
+	IDLE = 		11'b00_000_00_0000,
 //	TAPPED = 4'b0001, //decided not to use
-	CHECK_VALID = 	9'b00000_0010,
-	INVALID = 	9'b00000_0011,
-	CHECK_BAL = 	9'b00000_0100,
-	REDUCE_BAL = 	9'b00001_0101,
-	INSUF_BAL = 	9'b00000_0110,
-	OPEN = 		9'b01110_0111,
-	DELAY_O = 	9'b01110_1000,
-	DELAY_OM = 	9'b10010_1000,
-	DELAY_E = 	9'b01000_1000,
-	DELAY_IF = 	9'b00100_1000,
-	CLOSE = 	9'b00000_1001,
-	SERV = 		9'b00000_1010;
+	CHECK_VALID = 	11'b00_000_00_0010,
+	INVALID = 	11'b01_000_00_0011,
+	CHECK_BAL = 	11'b00_000_00_0100,
+	REDUCE_BAL = 	11'b00_000_01_0101,
+	INSUF_BAL = 	11'b01_000_00_0110,
+	OPEN = 		11'b10_000_10_0111,
+	DELAY_O = 	11'b00_100_10_1000,
+	DELAY_OM = 	11'b00_101_10_1000,
+	DELAY_E = 	11'b00_010_00_1000,
+	DELAY_IF = 	11'b00_001_00_1000,
+	CLOSE = 	11'b00_000_00_1001,
+	SERV = 		11'b00_111_00_1010,
+	SERV_E = 	11'b01_111_00_1010;
     
-logic [8:0] state, next_state; 
+logic [10:0] state, next_state; 
 logic delayed, start_delay;
 logic [1:0] count;
 
@@ -38,27 +41,32 @@ begin
 	case (state)
 		SERV:
 		begin
-			if(maintenance == 1'b1)
-				state <= SERV;
+			if(nfc)
+				next_state = SERV_E;
+			else
+				if(maintenance == 1'b1)
+					next_state = SERV;
+				else
+					next_state = IDLE;
+		end
+		SERV_E:				//error when user tries to tap on a machine in service. only one cycle to make sound
+		begin
+			next_state = SERV;
 		end
 		IDLE:
 		begin
 			//disp = 2'b00;		//this display shows that the gate is awaiting for an nfc card tap
-			if(maintenance) 	//go into service mode if maintenance flag s on
+			if(maintenance) begin	//go into service mode if maintenance flag s on
 				next_state = SERV;
-			if(nfc) 		// if card is tapped transition a state
-				next_state = CHECK_VALID;
-			else
-				next_state = IDLE;
+			end
+			if(nfc) begin		// if card is tapped transition a state
+				next_state = CHECK_VALID ;
+			end
 		end
 		CHECK_VALID:
 		begin
 			if(card_active) begin	//check if the card account exists within system
-				if(monthly)	//checks if card is a monthly pass
-				begin
-					next_state = OPEN;
-				end
-				else next_state = CHECK_BAL;
+				next_state = CHECK_BAL;
 			end
 			else begin
 				next_state = INVALID;
@@ -71,10 +79,17 @@ begin
 		end
 		CHECK_BAL:
 		begin
-			if(fund_enough)
-				next_state = REDUCE_BAL;		//reduce balance if there are enough funds the fund_enough signal comes from a higher level module
-			else
+			if(monthly)	//checks if card is a monthly pass
+			begin
+				next_state = OPEN;
+			end
+			else 
+				if(fund_enough == 1'b1) begin
+					next_state = REDUCE_BAL;		//reduce balance if there are enough funds the fund_enough signal comes from a higher level module
+				end
+				else begin
 				next_state = INSUF_BAL;
+				end
 		end
 		REDUCE_BAL:
 		begin
@@ -91,14 +106,14 @@ begin
 			//open = 1'b1;
 			//disp = 2'b11;		//this is the open display
 			//reduce_bal = 1'b0;
-			if(monthly)
+			if(monthly == 1'b1)
 				next_state = DELAY_O;	// a delay state is needed to allow users to see the error message and to pass the gate while open
 			else
 				next_state = DELAY_OM;
 		end
 		DELAY_O:
 		begin
-			start_delay = 1;
+			//start_delay = 1;
 			if(delayed) begin
 				if(open)
 					next_state = CLOSE;
@@ -110,7 +125,7 @@ begin
 		end
 		DELAY_OM:
 		begin
-			start_delay = 1;
+			//start_delay = 1;
 			if(delayed) begin
 				if(open)
 					next_state = CLOSE;
@@ -122,7 +137,7 @@ begin
 		end
 		DELAY_IF:
 		begin
-			start_delay = 1;
+			//start_delay = 1;
 			if(delayed) begin
 				if(open)
 					next_state = CLOSE;
@@ -134,7 +149,7 @@ begin
 		end
 		DELAY_E:
 		begin
-			start_delay = 1;
+			//start_delay = 1;
 			if(delayed) begin
 				if(open)
 					next_state = CLOSE;
@@ -146,13 +161,16 @@ begin
 		end
 		CLOSE:
 		begin
-			start_delay = 0;
+
+			//start_delay = 0;
 			//open = 1'b0;
 			//disp = 2'b00;
 			next_state = IDLE;
 		end
 		default:
+		begin
 			next_state = IDLE;
+		end
 	endcase
 end  
 
@@ -161,22 +179,36 @@ begin
 	disp =	state[8:6];
 	open =	state[5];
 	reduce_bal = state[4];
+	sound = state[10:9];
 end
 
 always_ff @(posedge clk)
 begin
 	if(start_delay)
+	begin
 		count <= count+1'b1;
+	end
 	else
+	begin
 		count <= 2'b0;
+	end
 end
 
 always_comb 
 begin
-	if( count > 2'b10 )
-		delayed = 1'b1;
+	if(state[3:0] == 4'b1000)
+		start_delay = 1'b1;
 	else
+		start_delay = 1'b0;
+
+	if( count > 2'b10 )
+	begin
+		delayed = 1'b1;
+	end
+	else
+	begin
 		delayed = 1'b0;
+	end
 end
 
 endmodule 
