@@ -4,9 +4,10 @@ module fsm_tb;
 logic clk, nfc, card_active, fund_enough, maintenance, monthly;
 logic open, reduce_bal;
 logic [2:0] disp;
+logic [1:0] sound;
 
 fsm DUT(.clk(clk), .nfc(nfc), .card_active(card_active), .maintenance(maintenance), .monthly(monthly),
-	.fund_enough(fund_enough), .open(open), .reduce_bal(reduce_bal), .disp(disp));
+	.fund_enough(fund_enough), .open(open), .reduce_bal(reduce_bal), .disp(disp), .sound(sound));
 
 always		// forever loop a clk signal
 begin

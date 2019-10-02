@@ -40,7 +40,9 @@ begin
 	#20
 	nfc <= 1'b0;
 
-	#100
+	#50
+	monthly <= 1'b0;
+	#50
 
 	//invalid card case
 	//door should not open and should display invalid card error
